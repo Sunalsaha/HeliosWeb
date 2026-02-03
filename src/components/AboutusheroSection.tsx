@@ -1,11 +1,7 @@
 // AboutusheroSection.tsx
-import React from "react";
+
 import {
-  ArrowRight,
   Heart,
-  Award,
-  Target,
-  Users,
   ChevronDown,
 } from "lucide-react";
 
