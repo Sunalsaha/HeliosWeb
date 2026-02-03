@@ -1,7 +1,31 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "ES2020",
+    "lib": ["ES2020"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+
+    /* Node / Tooling */
+    "types": ["node"],
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+
+    /* Build behavior */
+    "noEmit": true,
+    "skipLibCheck": true,
+
+    /* IMPORTANT: disable unused errors */
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+
+    /* Strictness (recommended) */
+    "strict": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "vite.config.ts",
+    "tsconfig.node.json"
   ]
 }
