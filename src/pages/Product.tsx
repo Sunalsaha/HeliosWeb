@@ -394,7 +394,7 @@ function Product() {
       <ProductsHeader />
       <ContactToggle />
       {/* Search + Filter Bar */}
-      <div className="border-b border-gray-200 bg-white/90 backdrop-blur-sm sticky top-0 z-30 py-1">
+      <div className="border-b border-gray-200  bg-white/90 backdrop-blur-sm sticky top-0 z-30 py-1">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between">
             {/* Search Input */}
@@ -406,7 +406,7 @@ function Product() {
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-11 pr-10 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all"
+                className="w-full pl-11 pr-10 py-3 bg-gray-50 border border-gray-200 rounded-full text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all"
                 placeholder="Search by product name or description..."
               />
               {searchTerm && (

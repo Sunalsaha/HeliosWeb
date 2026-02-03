@@ -1094,7 +1094,7 @@ const productTypes = [
                     <h3 className="product-name">{product.name}</h3>
                     <p className="product-description">{product.description}</p>
                     <div className="product-footer">
-                      <button className="details-btn">View Details</button>
+                      <button className="details-btn">Contact Us</button>
                     </div>
                   </div>
                 </div>

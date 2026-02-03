@@ -75,7 +75,7 @@ function NavberDashboard() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4 text-gray-600" />
               <input
                 placeholder="Search medical systems..."
-                className="pl-10 w-64 h-10 rounded-lg bg-white/80 border border-[#d3d3d3] focus:outline-[#fa8202e6]  focus:border-primary "
+                className="pl-10 w-64 h-10 rounded-full bg-white/80 border border-[#d3d3d3] focus:outline-[#fa8202e6]  focus:border-primary "
               />
             </div>
           </div>

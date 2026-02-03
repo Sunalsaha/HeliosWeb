@@ -7,7 +7,10 @@ import {
 
 function AboutusheroSection() {
   return (
-    <section className="relative min-h-screen flex items-center bg-gradient-to-br from-orange-50/50 via-white to-amber-50/40 overflow-hidden">
+   <section className="relative min-h-screen flex items-center 
+bg-gradient-to-b from-orange-500/50 via-orange-300/50 to-white 
+overflow-hidden">
+
       {/* Soft, light background elements */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Gentle organic shapes */}
