@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import  { useState, useEffect, useRef } from 'react';
 
 const ContactToggle = () => {
   const [isOpen, setIsOpen] = useState(false);
