@@ -28,7 +28,7 @@ const products: Product[] = [
     brand: 'RANDOX', 
     description: 'ACCESSORIS FOR MACHINERY', 
     gstRate: '5%', 
-    image: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%22200%22 y=%22150%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23666%22 font-family=%22Arial%22 font-size=%2216%22%3EAccessories%3C/text%3E%3C/svg%3E' 
+    image: 'https://dlcdnrog.asus.com/rog/media/176645697463.webp' 
   },
   { 
     id: 2, 
@@ -36,7 +36,7 @@ const products: Product[] = [
     brand: 'RANDOX', 
     description: 'ACCESSORIS FOR MACHINERY', 
     gstRate: '5%', 
-    image: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23e0f7fa%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%22200%22 y=%22150%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23000%22 font-family=%22Arial%22 font-size=%2216%22%3EWater Plant%3C/text%3E%3C/svg%3E' 
+    image: 'https://5.imimg.com/data5/IOS/Default/2020/12/AC/DF/LM/38175998/product-jpeg-500x500.png' 
   },
   { 
     id: 3, 
@@ -44,7 +44,7 @@ const products: Product[] = [
     brand: 'ROCHE', 
     description: 'ACCESSORIS FOR MACHINERY', 
     gstRate: '12%', 
-    image: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23fff3e0%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%22200%22 y=%22150%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23663300%22 font-family=%22Arial%22 font-size=%2216%22%3EGlucometer Kit%3C/text%3E%3C/svg%3E' 
+    image: 'https://www.colmed.in/pub/media/catalog/product/cache/9032ff7ba287d48c7a6aa389b5ca9462/f/i/first_image_active.jpg' 
   },
   { 
     id: 4, 
@@ -52,7 +52,7 @@ const products: Product[] = [
     brand: 'ROCHE', 
     description: 'ACCESSORIS FOR MACHINERY', 
     gstRate: '12%', 
-    image: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23fff3e0%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%22200%22 y=%22150%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23663300%22 font-family=%22Arial%22 font-size=%2216%22%3ETest Strips%3C/text%3E%3C/svg%3E' 
+    image: 'https://m.media-amazon.com/images/I/61pTClimq8L.jpg' 
   },
   { 
     id: 5, 
@@ -60,7 +60,7 @@ const products: Product[] = [
     brand: 'ROCHE', 
     description: 'ACCESSORIS FOR MACHINERY', 
     gstRate: '12%', 
-    image: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23fff3e0%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%22200%25%22 y=%22150%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23663300%22 font-family=%22Arial%22 font-size=%2216%22%3ETest Strips%3C/text%3E%3C/svg%3E' 
+    image: 'https://cdn01.pharmeasy.in/dam/products_otc/000665/accu-chek-active-glucometer-test-strips-box-of-50-6.1-1734607563.jpg' 
   },
   { 
     id: 6, 
@@ -68,7 +68,7 @@ const products: Product[] = [
     brand: 'ROCHE', 
     description: 'ACCESSORIS FOR MACHINERY', 
     gstRate: '12%', 
-    image: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23fff3e0%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%22200%22 y=%22150%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23663300%22 font-family=%22Arial%22 font-size=%2216%22%3ETest Strips%3C/text%3E%3C/svg%3E' 
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1XJjhySZ6M224Z-sMa8iRl7ihXiqypdIAQg&s' 
   },
   { 
     id: 7, 
@@ -76,7 +76,7 @@ const products: Product[] = [
     brand: 'ROCHE', 
     description: 'ACCESSORIS FOR MACHINERY', 
     gstRate: '12%', 
-    image: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23fff3e0%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%22200%22 y=%22150%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23663300%22 font-family=%22Arial%22 font-size=%2216%22%3ETest Strips%3C/text%3E%3C/svg%3E' 
+    image: 'https://m.media-amazon.com/images/I/41lj3M7qwOL._AC_UF350,350_QL80_.jpg' 
   },
   { 
     id: 8, 
@@ -84,7 +84,7 @@ const products: Product[] = [
     brand: 'ROCHE', 
     description: 'ACCESSORIS FOR MACHINERY', 
     gstRate: '12%', 
-    image: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23fff3e0%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%22200%22 y=%22150%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23663300%22 font-family=%22Arial%22 font-size=%2216%22%3ELancets%3C/text%3E%3C/svg%3E' 
+    image: 'https://cdn01.pharmeasy.in/dam/products_otc/000685/accu-chek-softclix-lancet-25s-pack-2-1671741296.jpg' 
   },
 ];
 
@@ -1005,6 +1005,18 @@ const productTypes = [
           </div>
         </div>
 
+<div className="search-container">
+            <input 
+              type="text" 
+              className="search-box" 
+              placeholder="Search equipment..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+        
+
         <div className="header-right">
           <div className="filter-row" style={{ display: 'flex', gap: '0.5rem', flex: 1 }}>
             <div className="filter-dropdown-wrapper">
@@ -1050,15 +1062,7 @@ const productTypes = [
             </div>
           </div>
 
-          <div className="search-container">
-            <input 
-              type="text" 
-              className="search-box" 
-              placeholder="Search equipment..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+          
         </div>
 
       </header>
