@@ -1,4 +1,4 @@
-import  { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const ContactToggle = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -84,17 +84,29 @@ const ContactToggle = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showModal]);
+
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleRequestCall = (e:any) => {
+  const handleRequestCall = (e: any) => {
     e.stopPropagation();
     setShowModal(true);
     setIsOpen(false);
   };
 
-  const handleEmailClick = (e:any) => {
+  const handleEmailClick = (e: any) => {
     e.stopPropagation();
     const subject = `Inquiry: ${formData.reason || formData.otherReason || 'General'}`;
     const body = formData.name ? `Hi, I'm ${formData.name}.` : 'Hello,';
@@ -103,10 +115,9 @@ const ContactToggle = () => {
     setIsOpen(false);
   };
 
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     
-    // Phone number validation: only allow digits and limit to 10
     if (name === 'phone') {
       const digitsOnly = value.replace(/\D/g, '');
       if (digitsOnly.length <= 10) {
@@ -117,16 +128,14 @@ const ContactToggle = () => {
     }
   };
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     
-    // Validate phone number is exactly 10 digits
     if (formData.phone.length !== 10) {
       alert('Please enter a valid 10-digit mobile number');
       return;
     }
     
-    // Validate other reason if "Other" is selected
     if (formData.reason === 'Other' && !formData.otherReason.trim()) {
       alert('Please describe your issue');
       return;
@@ -147,7 +156,6 @@ const ContactToggle = () => {
       setShowSuccessPopup(true);
       setFormData({ name: '', countryCode: '+91', phone: '', reason: '', otherReason: '', category: '' });
       
-      // Auto-hide success popup after 5 seconds
       setTimeout(() => {
         setShowSuccessPopup(false);
       }, 5000);
@@ -163,14 +171,14 @@ const ContactToggle = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 z-50" ref={dropdownRef}>
-      {/* Responsive Professional FAB - Now Round */}
+    <div className="fixed bottom-3 right-3 xs:bottom-4 xs:right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 z-50" ref={dropdownRef}>
+      {/* Responsive FAB - Larger touch target on mobile */}
       <button
         onClick={handleToggle}
         aria-label={isOpen ? "Close contact menu" : "Open contact menu"}
         aria-expanded={isOpen}
         className={`
-          relative w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full shadow-xl
+          relative w-14 h-14 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full shadow-xl
           flex items-center justify-center text-white font-medium
           transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-500/20 focus:ring-offset-2
           border border-white/20 backdrop-blur-sm
@@ -181,9 +189,9 @@ const ContactToggle = () => {
         `}
       >
         {isOpen ? (
-          <XMarkIcon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
+          <XMarkIcon className="w-5 h-5 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
         ) : (
-          <ChatIcon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
+          <ChatIcon className="w-5 h-5 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
         )}
         
         {!isOpen && (
@@ -191,13 +199,13 @@ const ContactToggle = () => {
         )}
       </button>
 
-      {/* Responsive Contact Dropdown */}
+      {/* Contact Dropdown - Better positioned on mobile */}
       {isOpen && (
-        <div className="absolute bottom-16 sm:bottom-20 lg:bottom-24 right-0 w-72 sm:w-80 lg:w-96 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-100/50 z-50 overflow-hidden animate-in slide-in-from-bottom-2 fade-in duration-200 max-h-[80vh] sm:max-h-[85vh]">
-          {/* Clean Header */}
-          <div className="bg-gradient-to-r from-orange-50 to-orange-100/50 px-4 sm:px-6 py-3 sm:py-4 border-b border-orange-100">
+        <div className="absolute bottom-16 sm:bottom-20 lg:bottom-24 right-0 w-[calc(100vw-1.5rem)] max-w-[340px] sm:max-w-[360px] lg:max-w-96 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-100/50 z-50 overflow-hidden animate-in slide-in-from-bottom-2 fade-in duration-200">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-orange-50 to-orange-100/50 px-4 sm:px-5 py-3 sm:py-4 border-b border-orange-100">
             <div className="flex items-center space-x-2 sm:space-x-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
                 <ChatIcon className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" />
               </div>
               <div className="min-w-0 flex-1">
@@ -207,36 +215,36 @@ const ContactToggle = () => {
             </div>
           </div>
           
-          {/* Contact Options */}
+          {/* Contact Options - Larger touch targets */}
           <div className="p-3 sm:p-4 space-y-2">
             <button
               onClick={handleRequestCall}
-              className="group w-full flex items-center p-3 sm:p-4 rounded-xl border border-gray-200 hover:border-orange-300 hover:bg-orange-50/50 transition-all duration-200 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+              className="group w-full flex items-center p-3.5 sm:p-4 rounded-xl border border-gray-200 hover:border-orange-300 hover:bg-orange-50/50 transition-all duration-200 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 active:scale-[0.98]"
             >
-              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-orange-100 rounded-lg flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0 group-hover:bg-orange-200 transition-colors">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 bg-orange-100 rounded-lg flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0 group-hover:bg-orange-200 transition-colors">
                 <PhoneIcon className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" />
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="font-medium text-gray-900 text-xs sm:text-sm leading-tight">Request Callback</div>
+              <div className="flex-1 min-w-0 text-left">
+                <div className="font-medium text-gray-900 text-sm leading-tight">Request Callback</div>
                 <div className="text-xs text-gray-500">Response within 24 hours</div>
               </div>
-              <svg className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 group-hover:text-orange-600 ml-2 flex-shrink-0 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 text-gray-400 group-hover:text-orange-600 ml-2 flex-shrink-0 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
 
             <button
               onClick={handleEmailClick}
-              className="group w-full flex items-center p-3 sm:p-4 rounded-xl border border-gray-200 hover:border-orange-300 hover:bg-orange-50/50 transition-all duration-200 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+              className="group w-full flex items-center p-3.5 sm:p-4 rounded-xl border border-gray-200 hover:border-orange-300 hover:bg-orange-50/50 transition-all duration-200 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 active:scale-[0.98]"
             >
-              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-orange-100 rounded-lg flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0 group-hover:bg-orange-200 transition-colors">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 bg-orange-100 rounded-lg flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0 group-hover:bg-orange-200 transition-colors">
                 <EnvelopeIcon className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" />
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="font-medium text-gray-900 text-xs sm:text-sm leading-tight">Email Support</div>
+              <div className="flex-1 min-w-0 text-left">
+                <div className="font-medium text-gray-900 text-sm leading-tight">Email Support</div>
                 <div className="text-xs text-gray-500 truncate">{SUPPORT_EMAIL}</div>
               </div>
-              <svg className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 group-hover:text-orange-600 ml-2 flex-shrink-0 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 text-gray-400 group-hover:text-orange-600 ml-2 flex-shrink-0 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -244,173 +252,170 @@ const ContactToggle = () => {
         </div>
       )}
 
-      {/* Compact Responsive Modal */}
+      {/* Modal - Improved mobile layout */}
       {showModal && (
         <>
           <div className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-[99] animate-in fade-in duration-200" aria-hidden="true" onClick={closeModal} />
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 lg:p-6 animate-in zoom-in-95 fade-in duration-200">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-[95vw] sm:max-w-sm lg:max-w-md max-h-[85vh] flex flex-col border border-gray-100 mx-2 overflow-hidden">
-              {/* Smaller Header */}
-              <div className="bg-gradient-to-r from-orange-400 to-orange-400 px-4 py-3 text-white flex items-center justify-between shrink-0">
-                <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
+          <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center animate-in slide-in-from-bottom sm:zoom-in-95 fade-in duration-200">
+            <div className="bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[90vh] sm:max-h-[85vh] flex flex-col border border-gray-100 overflow-hidden">
+              {/* Header */}
+              <div className="bg-gradient-to-r from-orange-400 to-orange-500 px-4 sm:px-5 py-4 text-white flex items-center justify-between shrink-0">
+                <div className="flex items-center space-x-2.5">
+                  <div className="w-9 h-9 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
                     <PhoneIcon className="w-4 h-4" />
                   </div>
                   <div>
                     <h2 className="text-lg font-bold leading-tight">Request a Callback</h2>
-                    <p className="text-xs text-orange-100">We'll contact you within 24 hours</p>
+                    <p className="text-xs text-orange-100 mt-0.5">We'll contact you within 24 hours</p>
                   </div>
                 </div>
                 <button
                   onClick={closeModal}
-                  className="p-1.5 hover:bg-white/20 rounded-lg transition-all duration-200 flex-shrink-0 ml-2"
+                  className="p-2 hover:bg-white/20 rounded-lg transition-all duration-200 flex-shrink-0 ml-2 active:scale-95"
                   aria-label="Close dialog"
                 >
-                  <XMarkIcon className="w-4 h-4" />
+                  <XMarkIcon className="w-5 h-5" />
                 </button>
               </div>
 
               {/* Scrollable Form Content */}
-              <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-6 pt-4">
+              <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-6 pt-5">
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="space-y-4">
-                    {/* Name */}
-                    <div>
-                      <label className="block text-xs sm:text-sm font-semibold text-gray-900 mb-1.5">
-                        Full Name <span className="text-red-500">*</span>
-                      </label>
-                      <div className="relative">
-                        <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+                  {/* Name */}
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      Full Name <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <UserIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                      <input
+                        type="text"
+                        name="name"
+                        placeholder="Enter your full name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        className="w-full pl-10 pr-3 py-3 text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-gray-50/50 hover:border-gray-300"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Phone with Country Code */}
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      Phone Number <span className="text-red-500">*</span>
+                    </label>
+                    <div className="flex gap-2">
+                      {/* Country Code Dropdown */}
+                      <div className="relative w-28 flex-shrink-0">
+                        <select
+                          name="countryCode"
+                          value={formData.countryCode}
+                          onChange={handleChange}
+                          className="w-full pl-2.5 pr-7 py-3 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 appearance-none bg-gray-50/50 hover:border-gray-300 transition-all duration-200 cursor-pointer"
+                        >
+                          {countryCodes.map((country) => (
+                            <option key={country.code} value={country.code}>
+                              {country.flag} {country.code}
+                            </option>
+                          ))}
+                        </select>
+                        <ChevronDownIcon className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+                      </div>
+
+                      {/* Phone Number Input */}
+                      <div className="relative flex-1">
+                        <PhoneIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                         <input
-                          type="text"
-                          name="name"
-                          placeholder="Enter your full name"
-                          value={formData.name}
+                          type="tel"
+                          name="phone"
+                          placeholder="10-digit number"
+                          value={formData.phone}
                           onChange={handleChange}
                           required
-                          className="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-gray-50/50 hover:border-gray-300"
+                          pattern="[0-9]{10}"
+                          inputMode="numeric"
+                          className="w-full pl-10 pr-3 py-3 text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-gray-50/50 hover:border-gray-300"
                         />
                       </div>
                     </div>
+                    <p className="mt-1.5 text-xs text-gray-500">Enter 10 digits without country code</p>
+                  </div>
 
-                    {/* Phone with Country Code */}
-                    <div>
-                      <label className="block text-xs sm:text-sm font-semibold text-gray-900 mb-1.5">
-                        Phone Number <span className="text-red-500">*</span>
-                      </label>
-                      <div className="flex gap-2">
-                        {/* Country Code Dropdown */}
-                        <div className="relative w-24 flex-shrink-0">
-                          <select
-                            name="countryCode"
-                            value={formData.countryCode}
-                            onChange={handleChange}
-                            className="w-full pl-2 pr-6 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 appearance-none bg-gray-50/50 hover:border-gray-300 transition-all duration-200 cursor-pointer"
-                          >
-                            {countryCodes.map((country) => (
-                              <option key={country.code} value={country.code}>
-                                {country.flag} {country.code}
-                              </option>
-                            ))}
-                          </select>
-                          <ChevronDownIcon className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 pointer-events-none" />
-                        </div>
-
-                        {/* Phone Number Input */}
-                        <div className="relative flex-1">
-                          <PhoneIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
-                          <input
-                            type="tel"
-                            name="phone"
-                            placeholder="Enter 10-digit number"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            required
-                            pattern="[0-9]{10}"
-                            className="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-gray-50/50 hover:border-gray-300"
-                          />
-                        </div>
-                      </div>
-                      <p className="mt-1 text-xs text-gray-500">Enter 10 digits without country code</p>
+                  {/* Reason */}
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      Reason <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <select
+                        name="reason"
+                        value={formData.reason}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-3.5 py-3 text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 appearance-none bg-gray-50/50 hover:border-gray-300 transition-all duration-200 cursor-pointer"
+                      >
+                        <option value="">Select reason for contact</option>
+                        {reasons.map((reason) => (
+                          <option key={reason} value={reason}>{reason}</option>
+                        ))}
+                      </select>
+                      <ChevronDownIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                     </div>
+                  </div>
 
-                    {/* Reason */}
-                    <div>
-                      <label className="block text-xs sm:text-sm font-semibold text-gray-900 mb-1.5">
-                        Reason <span className="text-red-500">*</span>
+                  {/* Other Reason Description */}
+                  {formData.reason === 'Other' && (
+                    <div className="animate-in slide-in-from-top-2 duration-200">
+                      <label className="block text-sm font-semibold text-gray-900 mb-2">
+                        Please describe your issue <span className="text-red-500">*</span>
+                      </label>
+                      <textarea
+                        name="otherReason"
+                        placeholder="Please describe your issue in detail..."
+                        value={formData.otherReason}
+                        onChange={handleChange}
+                        required={formData.reason === 'Other'}
+                        rows={3}
+                        className="w-full px-3.5 py-3 text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-vertical bg-gray-50/50 hover:border-gray-300 transition-all duration-200"
+                      />
+                      <p className="mt-1.5 text-xs text-gray-500">Provide details so we can assist you better</p>
+                    </div>
+                  )}
+
+                  {/* Conditional Category */}
+                  {formData.reason === 'Product Overview' && (
+                    <div className="animate-in slide-in-from-top-2 duration-200">
+                      <label className="block text-sm font-semibold text-gray-900 mb-2">
+                        Product Category <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
                         <select
-                          name="reason"
-                          value={formData.reason}
+                          name="category"
+                          value={formData.category}
                           onChange={handleChange}
-                          required
-                          className="w-full pl-9 pr-8 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 appearance-none bg-gray-50/50 hover:border-gray-300 transition-all duration-200 cursor-pointer"
+                          required={formData.reason === 'Product Overview'}
+                          className="w-full px-3.5 py-3 text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 appearance-none bg-gray-50/50 hover:border-gray-300 transition-all duration-200 cursor-pointer"
                         >
-                          <option value="">Select reason for contact</option>
-                          {reasons.map((reason) => (
-                            <option key={reason} value={reason}>{reason}</option>
-                          ))}
+                          <option value="">Select product category</option>
+                          <option value="Healthcare Devices">Healthcare Devices</option>
+                          <option value="Telemedicine">Telemedicine</option>
+                          <option value="Diagnostic Tools">Diagnostic Tools</option>
+                          <option value="Wearables">Wearables</option>
+                          <option value="Mobile Apps">Mobile Apps</option>
+                          <option value="AI Solutions">AI Solutions</option>
+                          <option value="Other">Other</option>
                         </select>
-                        <ChevronDownIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+                        <ChevronDownIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                       </div>
+                      <p className="mt-1.5 text-xs text-gray-500">Help us route your inquiry to the right team</p>
                     </div>
+                  )}
 
-                    {/* Other Reason Description - Shows when "Other" is selected */}
-                    {formData.reason === 'Other' && (
-                      <div className="animate-in slide-in-from-top-2 duration-200">
-                        <label className="block text-xs sm:text-sm font-semibold text-gray-900 mb-1.5">
-                          Please describe your issue <span className="text-red-500">*</span>
-                        </label>
-                        <div className="relative">
-                          <textarea
-                            name="otherReason"
-                            placeholder="Please describe your issue in detail..."
-                            value={formData.otherReason}
-                            onChange={handleChange}
-                            required={formData.reason === 'Other'}
-                            rows={3}
-                            className="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-vertical bg-gray-50/50 hover:border-gray-300 transition-all duration-200"
-                          />
-                        </div>
-                        <p className="mt-1 text-xs text-gray-500">Provide details so we can assist you better</p>
-                      </div>
-                    )}
-
-                    {/* Conditional Category Section */}
-                    {formData.reason === 'Product Overview' && (
-                      <div className="animate-in slide-in-from-top-2 duration-200">
-                        <label className="block text-xs sm:text-sm font-semibold text-gray-900 mb-1.5">
-                          Product Category <span className="text-red-500">*</span>
-                        </label>
-                        <div className="relative">
-                          <select
-                            name="category"
-                            value={formData.category}
-                            onChange={handleChange}
-                            required={formData.reason === 'Product Overview'}
-                            className="w-full pl-9 pr-8 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 appearance-none bg-gray-50/50 hover:border-gray-300 transition-all duration-200 cursor-pointer"
-                          >
-                            <option value="">Select product category</option>
-                            <option value="Healthcare Devices">Healthcare Devices</option>
-                            <option value="Telemedicine">Telemedicine</option>
-                            <option value="Diagnostic Tools">Diagnostic Tools</option>
-                            <option value="Wearables">Wearables</option>
-                            <option value="Mobile Apps">Mobile Apps</option>
-                            <option value="AI Solutions">AI Solutions</option>
-                            <option value="Other">Other</option>
-                          </select>
-                          <ChevronDownIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
-                        </div>
-                        <p className="mt-1 text-xs text-gray-500">Help us route your inquiry to the right team</p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Submit */}
+                  {/* Submit Button - Larger touch target */}
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-orange-400 to-orange-400 hover:from-orange-600 hover:to-orange-500 text-white font-semibold py-3 px-6 rounded-xl text-sm shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-orange-500/20 transition-all duration-200 transform hover:-translate-y-px disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-600 hover:to-orange-500 text-white font-semibold py-3.5 px-6 rounded-xl text-base shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-orange-500/20 transition-all duration-200 transform active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Request Callback
                   </button>
@@ -425,10 +430,10 @@ const ContactToggle = () => {
         </>
       )}
 
-      {/* Success Popup Notification */}
+      {/* Success Popup - Better mobile positioning */}
       {showSuccessPopup && (
-        <div className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[110] animate-in slide-in-from-top-2 fade-in duration-300">
-          <div className="bg-white rounded-2xl shadow-2xl border border-green-100 p-4 sm:p-5 max-w-sm flex items-start space-x-3">
+        <div className="fixed top-4 left-4 right-4 sm:top-6 sm:left-auto sm:right-6 z-[110] animate-in slide-in-from-top-2 fade-in duration-300">
+          <div className="bg-white rounded-2xl shadow-2xl border border-green-100 p-4 sm:p-5 max-w-sm mx-auto sm:mx-0 flex items-start space-x-3">
             <div className="flex-shrink-0">
               <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
                 <CheckCircleIcon className="w-6 h-6 text-green-600" />
@@ -442,7 +447,7 @@ const ContactToggle = () => {
             </div>
             <button
               onClick={closeSuccessPopup}
-              className="flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors"
+              className="flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors p-1 active:scale-95"
               aria-label="Close notification"
             >
               <XMarkIcon className="w-4 h-4" />

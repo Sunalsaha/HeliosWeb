@@ -10,7 +10,7 @@ interface InnovationVideoProps {
 }
 
 const AboutusVedioSection = ({
-  videoUrl = "/src/assets/about.mp4",
+  videoUrl = "/about.mp4",
   posterUrl = "/video-poster.jpg",
   title = "The Future of Medical Technology",
   description = "Discover how our innovations are shaping the future of healthcare.",
