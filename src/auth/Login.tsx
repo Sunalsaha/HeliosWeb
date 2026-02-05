@@ -4,7 +4,8 @@ import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import ToastMessage from "../components/toast/ToastMessage";
 import { useToast } from "../hooks/useToast";
 
-import companyLogo from "../assets/company-logo.png"; // assume this is your orange sun + H logo
+import companyLogo from "../assets/company-logo.png";
+import loaderGif from "../assets/loader.gif";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,18 +23,18 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate API call
+    // Show success toast
+    showToast({
+      type: "success",
+      title: "Login Successful",
+      description: "Welcome back to HELIOS Medical Systems!",
+    });
+
+    // Simulate API delay then navigate
     setTimeout(() => {
       setIsLoading(false);
-
-      showToast({
-        type: "success",
-        title: "Login Successful",
-        description: "Welcome back to HELIOS Medical Systems!",
-      });
-
-      navigate("/");
-    }, 1500);
+      navigate("/dashboard");
+    }, 2000); // 2 second delay to show loader
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,28 +62,45 @@ const Login = () => {
 
   return (
     <>
-      <div className="h-screen bg-linear-to-b from-[#ffddb38f] via-[#fff1dc] to-[#fff9f5] flex flex-col lg:flex-row overflow-hidden">
-        {/* Back to Home - always visible */}
+      {/* Full Screen Loader Overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm px-4">
+          <div className="flex flex-col items-center space-y-3 max-w-xs w-full">
+            <img
+              src={loaderGif}
+              alt="Loading"
+              className="w-54 h-54  object-contain animate-pulse mx-auto"
+            />
+            <div className="text-center px-2">
+              <h3 className="text-base sm:text-xl font-bold text-gray-900 mb-1 leading-tight">Signing In...</h3>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">Please wait while we verify your credentials</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="min-h-screen bg-gradient-to-b from-[#ffddb38f] via-[#fff1dc] to-[#fff9f5] flex flex-col lg:flex-row overflow-hidden relative">
+        {/* Back to Home - responsive positioning */}
         <Link
           to="/"
-          className="absolute left-5 top-5 sm:left-8 sm:top-8 text-gray-600 hover:text-orange-600 text-sm sm:text-base font-medium z-20 transition-colors"
+          className="absolute left-4 top-4 sm:left-6 sm:top-6 md:left-8 md:top-8 text-gray-600 hover:text-orange-600 text-xs sm:text-sm md:text-base font-medium z-20 transition-colors px-2 py-1"
         >
           Back to Home
         </Link>
 
-        {/* LEFT SIDE - Branding (hidden on mobile) */}
-        <div className="hidden lg:flex lg:w-1/2 bg-linear-to-br items-center justify-center px-8 xl:px-16 overflow-hidden">
-          <div className="max-w-xl text-center space-y-8">
+        {/* LEFT SIDE - Branding (hidden on mobile, full height on desktop) */}
+        <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br items-center justify-center px-6 lg:px-8 xl:px-16 min-h-screen overflow-hidden">
+          <div className="max-w-lg lg:max-w-xl text-center space-y-6 lg:space-y-8 py-8">
             <img
               src={companyLogo}
               alt="HELIOS Medical Systems"
-              className="mx-auto h-44 w-44 object-contain drop-shadow-md"
+              className="mx-auto h-36 lg:h-44 w-36 lg:w-44 xl:h-48 xl:w-48 object-contain drop-shadow-md"
               draggable={false}
             />
-            <h1 className="text-5xl xl:text-6xl font-bold text-gray-900 tracking-tight">
+            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 tracking-tight leading-tight">
               Welcome Back
             </h1>
-            <p className="text-xl text-gray-600 leading-relaxed max-w-lg mx-auto">
+            <p className="text-lg lg:text-xl text-gray-600 leading-relaxed max-w-md lg:max-w-lg mx-auto">
               Sign in to your HELIOS Medical Systems account to access advanced
               healthcare solutions and manage your medical data securely.
             </p>
@@ -90,54 +108,52 @@ const Login = () => {
         </div>
 
         {/* HALF SMOOTH DIVIDER - Only visible on lg+ screens */}
-        <div className="hidden lg:block absolute right-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-96 bg-linear-to-b from-transparent via-white/60 to-transparent shadow-lg z-10" />
+        <div className="hidden lg:block absolute right-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-80 lg:h-96 xl:h-[500px] bg-gradient-to-b from-transparent via-white/60 to-transparent shadow-lg z-10" />
 
         {/* RIGHT SIDE - Form */}
         <div
-          className={`flex-1 flex items-center justify-center px-5 sm:px-8 py-10 lg:py-0 lg:min-h-screen transition-all duration-1000 ease-out overflow-hidden ${isVisible
-            ? "translate-x-0 opacity-100"
-            : "translate-x-full opacity-0"
+          className={`flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-0 lg:min-h-screen transition-all duration-1000 ease-out overflow-hidden ${
+            isVisible ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
           }`}
         >
-          <div className="w-full max-w-md space-y-8 overflow-hidden">
+          <div className="w-full max-w-sm sm:max-w-md lg:max-w-lg space-y-6 sm:space-y-8 overflow-hidden">
             {/* Mobile-only header */}
-            <div className="text-center lg:hidden space-y-5">
+            <div className="text-center lg:hidden space-y-4 sm:space-y-5 px-2">
               <img
                 src={companyLogo}
                 alt="HELIOS Medical Systems"
-                className="mx-auto h-28 w-28 object-contain"
+                className="mx-auto h-20 sm:h-24 w-20 sm:w-24 md:h-28 md:w-28 object-contain"
                 draggable={false}
               />
-              <div>
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+              <div className="space-y-2">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
                   Welcome Back
                 </h2>
-                <p className="mt-2 text-gray-600">
+                <p className="text-sm sm:text-base text-gray-600 leading-relaxed max-w-sm mx-auto">
                   Sign in to your HELIOS Medical Systems account
                 </p>
               </div>
             </div>
 
             {/* Desktop-only header */}
-            <div className="hidden lg:block text-center">
-              <h2 className="text-3xl font-bold text-gray-900">Sign In</h2>
-              <p className="mt-2 text-gray-600">
+            <div className="hidden lg:block text-center space-y-2">
+              <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">Sign In</h2>
+              <p className="text-gray-600">
                 Enter your credentials to continue
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-7 sm:p-9 overflow-hidden">
-              <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="bg-white rounded-2xl shadow-xl lg:shadow-lg border border-gray-100 lg:border-gray-200 p-6 sm:p-7 lg:p-8 xl:p-9 overflow-hidden">
+              <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
                 {/* Social Buttons */}
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   <button
                     type="button"
                     onClick={handleGoogleLogin}
-                    className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 hover:border-gray-400 text-gray-700 py-3.5 rounded-lg font-medium transition-all shadow-sm hover:shadow"
+                    disabled={isLoading}
+                    className="w-full flex items-center justify-center gap-2 sm:gap-3 bg-white border border-gray-300 hover:border-gray-400 text-gray-700 py-3 sm:py-3.5 rounded-lg font-medium transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base px-3"
                   >
-                    {/* Google icon (you already have SVG - keeping it) */}
-                    <svg className="w-5 h-5" viewBox="0 0 24 24">
-                      {/* your Google paths here - unchanged */}
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" viewBox="0 0 24 24">
                       <path
                         fill="#4285F4"
                         d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -161,13 +177,10 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={handleAppleLogin}
-                    className="w-full flex items-center justify-center gap-3 bg-black hover:bg-gray-900 text-white py-3.5 rounded-lg font-medium transition-all shadow-sm hover:shadow"
+                    disabled={isLoading}
+                    className="w-full flex items-center justify-center gap-2 sm:gap-3 bg-black hover:bg-gray-900 text-white py-3 sm:py-3.5 rounded-lg font-medium transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base px-3"
                   >
-                    <svg
-                      className="w-5 h-5"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
                     </svg>
                     Continue with Apple
@@ -175,12 +188,12 @@ const Login = () => {
                 </div>
 
                 {/* Divider */}
-                <div className="relative my-2">
+                <div className="relative my-3 sm:my-2">
                   <div className="absolute inset-0 flex items-center">
                     <div className="w-full border-t border-gray-200"></div>
                   </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="px-4 bg-white text-gray-500">
+                  <div className="relative flex justify-center text-xs sm:text-sm">
+                    <span className="px-3 sm:px-4 bg-white text-gray-500 py-1">
                       Or continue with email
                     </span>
                   </div>
@@ -195,7 +208,7 @@ const Login = () => {
                     Email Address
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
                     <input
                       id="email"
                       name="email"
@@ -204,7 +217,8 @@ const Login = () => {
                       required
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-1 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all placeholder:text-gray-400"
+                      disabled={isLoading}
+                      className="w-full pl-10 sm:pl-11 pr-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 sm:focus:ring-1 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all placeholder:text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
                       placeholder="Enter your email"
                     />
                   </div>
@@ -219,7 +233,7 @@ const Login = () => {
                     Password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
                     <input
                       id="password"
                       name="password"
@@ -228,36 +242,31 @@ const Login = () => {
                       required
                       value={formData.password}
                       onChange={handleInputChange}
-                      className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-1 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all placeholder:text-gray-400"
+                      disabled={isLoading}
+                      className="w-full pl-10 sm:pl-11 pr-10 sm:pr-12 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 sm:focus:ring-1 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all placeholder:text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
                       placeholder="Enter your password"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                      disabled={isLoading}
+                      className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors disabled:opacity-50 p-0.5"
                     >
-                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                      {showPassword ? <EyeOff size={18} className="sm:w-5 sm:h-5" /> : <Eye size={18} className="sm:w-5 sm:h-5" />}
                     </button>
                   </div>
                 </div>
 
-                {/* Login Button */}
+                {/* Simple Login Button */}
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className={`w-full py-3.5 px-6 rounded-lg text-white font-semibold text-lg transition-all ${
-                    isLoading
-                      ? "bg-orange-400 cursor-not-allowed"
-                      : "bg-orange-500 hover:bg-orange-600 shadow-md hover:shadow-lg"
-                  }`}
-                  onClick={()=>navigate('/dashboard')}
+                  className="w-full py-3 sm:py-3.5 px-4 sm:px-6 rounded-2xl text-white font-semibold text-base sm:text-lg transition-all bg-orange-400 hover:bg-orange-500 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isLoading ? "Signing in..." : "Login"}
+                  {isLoading ? "Signing In..." : "Login"}
                 </button>
               </form>
             </div>
-
-            {/* Terms footer */}
           </div>
         </div>
       </div>

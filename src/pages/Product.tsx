@@ -1,8 +1,8 @@
 // Product.tsx
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import NavberDashboard from "../components/NavberDashboard";
 import ProductsHeader from "../components/ProductsHeader";
-import { Search, Filter, X, ArrowRight, ChevronDown, Plus } from "lucide-react";
+import { Search, X, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ContactToggle from "../components/ContactToggle";
 
@@ -65,49 +65,9 @@ const PromoCard: React.FC<PromoCardProps> = ({
 
 function Product() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-  const [showAllCards, setShowAllCards] = useState(false); // ✅ NEW: Toggle all cards
-  const [visibleCount, setVisibleCount] = useState(8); // ✅ NEW: Initial cards to show (fits screen)
-  const categoryRef = useRef<HTMLDivElement>(null);
+  const [showAllCards, setShowAllCards] = useState(false);
+  const [visibleCount] = useState(8);
   const navigate = useNavigate();
-
-  const categories = [
-    "All",
-    "ACCESSORIES FOR MACHINERY",
-    "Chemical",
-    "DIPONED",
-    "Disposable Item",
-    "Electrical Item",
-    "General Item & Instrument",
-    "Gym Items",
-    "HELMIER",
-    "Instrument & Implants",
-    "Kits",
-    "Kits & Reagent",
-    "Lab Equipments",
-    "Lens",
-    "Linen Items",
-    "MEDTRONIC",
-    "MEDTRONIC CATHETER",
-    "MEDTRONIC NEURO",
-    "Machinery",
-    "Medical Equipments",
-    "Medicine",
-    "ORTHOPADIC",
-    "Pathological Item",
-    "Physiotherapy",
-    "REDDY'S",
-    "Repairing",
-    "Servicing",
-    "Spare Part",
-    "Sports Item",
-    "Stationery/Miscellaneous/Printing Item",
-    "Surgical",
-    "Surgical Item",
-    "Suture Item",
-    "Urology",
-  ];
 
   /* -----------------------------------
      ALL Promo Cards Data (Backend Ready)
@@ -255,46 +215,21 @@ function Product() {
     },
   ];
 
-  // Close category dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        categoryRef.current &&
-        !categoryRef.current.contains(event.target as Node)
-      ) {
-        setIsCategoryOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   const handleClearSearch = () => {
     setSearchTerm("");
   };
 
-  const handleResetFilters = () => {
-    setSearchTerm("");
-    setSelectedCategory("All");
-    setIsCategoryOpen(false);
-  };
-
-  // ✅ Filter logic with pagination
+  // Filter logic with pagination
   const filteredPromoCards = allPromoCards.filter((card) => {
     const matchesSearch =
       searchTerm === "" ||
       card.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       card.subtitle.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesCategory =
-      selectedCategory === "All" ||
-      (card.category && card.category === selectedCategory);
-
-    return matchesSearch && matchesCategory;
+    return matchesSearch;
   });
 
-  // ✅ Show limited cards initially, all when button clicked
+  // Show limited cards initially, all when button clicked
   const displayCards = showAllCards 
     ? filteredPromoCards 
     : filteredPromoCards.slice(0, visibleCount);
@@ -307,170 +242,73 @@ function Product() {
       <ProductsHeader />
       <ContactToggle />
       
-      {/* Search + Filter Bar */}
-      <div className="border-b border-gray-200  bg-white/90 backdrop-blur-sm sticky top-0 z-30 py-1">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between">
-            {/* Search Input */}
-            <div className="relative flex-1 max-w-2xl">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
+      {/* Responsive Search Bar with Soft Orange Shadow - SMALLER HEIGHT */}
+      <div className="border-b border-gray-200 bg-orange-50/50 backdrop-blur-md sticky top-0 z-30 py-3 sm:py-4">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+         <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4">
+            {/* Responsive Centered Search Input - SLIGHTLY SMALLER HEIGHT */}
+            <div className="relative w-full sm:w-auto max-w-xs sm:max-w-md lg:max-w-3xl xl:max-w-2xl">
+              <div className="absolute inset-y-0 left-0 pl-2 sm:pl-3 lg:pl-4 flex items-center pointer-events-none z-10">
+                <Search className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-gray-400 flex-shrink-0" />
               </div>
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-11 pr-10 py-3 bg-gray-50 border border-gray-200 rounded-full text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all"
-                placeholder="Search by product name or description..."
+                className="
+                  w-full pl-9 sm:pl-11 lg:pl-14 pr-10 sm:pr-12 lg:pr-14 py-1.5 sm:py-2 lg:py-2.5
+                  bg-white/80 backdrop-blur-sm
+                  border border-gray-200/70 rounded-2xl lg:rounded-3xl
+                  text-gray-900 text-sm sm:text-base lg:text-lg font-medium
+                  placeholder-gray-500 placeholder:font-normal
+                  focus:outline-none focus:ring-2 focus:ring-orange-400/60 focus:border-orange-400
+                  shadow-[0_4px_20px_rgba(251,146,60,0.15)] hover:shadow-[0_6px_25px_rgba(251,146,60,0.25)]
+                  focus:shadow-[0_8px_30px_rgba(251,146,60,0.35)] 
+                  transition-all duration-300 ease-out
+                  sm:min-w-[280px] lg:min-w-[500px]
+                "
+                placeholder="Search medical equipment, brands, categories..."
               />
               {searchTerm && (
                 <button
                   onClick={handleClearSearch}
-                  className="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute inset-y-0 right-2 sm:right-3 lg:right-4 flex items-center text-gray-400 hover:text-gray-600 transition-all duration-200 hover:scale-110"
                   aria-label="Clear search"
                 >
-                  <X className="h-5 w-5" />
+                  <X className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
                 </button>
               )}
             </div>
 
-            {/* Filters Container */}
-            <div className="flex flex-wrap items-center">
-              {/* Category Filter */}
-              <div
-                ref={categoryRef}
-                className="relative  lg:right-25"
-              >
-                <button
-                  onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-                  className="
-            flex items-center justify-between
-            px-4 py-3
-            bg-white border border-gray-200 rounded-xl
-            hover:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500
-            text-gray-700 hover:text-gray-900
-            transition-all duration-200
-            min-w-[170px]
-          "
-                >
-                  <span className="truncate">
-                    {selectedCategory === "All"
-                      ? "All Categories"
-                      : selectedCategory}
-                  </span>
-                  <ChevronDown
-                    className={`h-4 w-4 text-gray-500 ml-2 transition-transform duration-200 ${
-                      isCategoryOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-
-                {/* Dropdown */}
-                {isCategoryOpen && (
-                  <div
-                    className="
-            absolute left-0 top-full mt-2 z-50
-            bg-white rounded-xl shadow-lg border border-gray-100
-            min-w-[200px] max-h-60
-            overflow-y-auto no-scrollbar
-          "
-                  >
-                    <div className="p-3 border-b sticky top-0 bg-white">
-                      <p className="text-sm font-semibold text-gray-700">
-                        Select Category
-                      </p>
-                    </div>
-
-                    <ul>
-                      {categories.map((cat) => (
-                        <li key={cat}>
-                          <button
-                            onClick={() => {
-                              setSelectedCategory(cat);
-                              setIsCategoryOpen(false);
-                            }}
-                            className={`
-                    w-full text-left px-4 py-3
-                    hover:bg-amber-50 transition-colors
-                    ${
-                      selectedCategory === cat
-                        ? "text-amber-700 bg-amber-50 font-medium"
-                        : "text-gray-700"
-                    }
-                  `}
-                          >
-                            {cat === "All" ? "All Categories" : cat}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-
-              {/* Reset Filters Button */}
-              {(selectedCategory !== "All" || searchTerm.trim() !== "") && (
-                <button
-                  onClick={handleResetFilters}
-                  className="
-            px-4 py-3 text-sm font-medium
-            text-amber-700 bg-amber-50
-            hover:bg-amber-100
-            border border-amber-200
-            rounded-xl
-            transition-colors whitespace-nowrap
-          "
-                >
-                  Reset All Filters
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Active Filters Display */}
-          {(selectedCategory !== "All" || searchTerm.trim() !== "") && (
-            <div className="mt-4 flex flex-wrap items-center gap-2">
-              <span className="text-sm text-gray-500">Active filters:</span>
-              {searchTerm.trim() !== "" && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 text-blue-700 text-sm rounded-full border border-blue-200">
-                  Search: "{searchTerm}"
+            {/* Active Search Display - Responsive */}
+            {searchTerm.trim() !== "" && (
+              <div className="flex justify-center w-full sm:w-auto">
+                <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-orange-50/80 text-orange-800 text-xs sm:text-sm rounded-full border border-orange-200/50 shadow-sm backdrop-blur-sm">
+                  "{searchTerm}"
                   <button
                     onClick={() => setSearchTerm("")}
-                    className="ml-1 hover:text-blue-900 transition-colors"
+                    className="ml-1.5 hover:text-orange-900 transition-all duration-200 hover:scale-110"
                     aria-label="Remove search filter"
                   >
-                    <X className="h-3 w-3" />
+                    <X className="h-3 w-3 sm:h-4 sm:w-4" />
                   </button>
                 </span>
-              )}
-              {selectedCategory !== "All" && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-amber-50 text-amber-700 text-sm rounded-full border border-amber-200">
-                  Category: {selectedCategory}
-                  <button
-                    onClick={() => setSelectedCategory("All")}
-                    className="ml-1 hover:text-amber-900 transition-colors"
-                    aria-label="Remove category filter"
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
-                </span>
-              )}
-            </div>
-          )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Results Count */}
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">
+        <div className="mb-6 sm:mb-8">
+         <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800">
             Medical Equipment
           </h2>
-          <p className="text-gray-600 mt-1">
+          <p className="text-gray-600 mt-1 text-sm sm:text-base">
             Showing {displayCards.length} of {filteredPromoCards.length} products
             {searchTerm.trim() !== "" && ` matching "${searchTerm}"`}
-            {selectedCategory !== "All" && ` in ${selectedCategory}`}
             {!showAllCards && filteredPromoCards.length > visibleCount && ` (+${filteredPromoCards.length - visibleCount} more)`}
           </p>
         </div>
@@ -479,7 +317,7 @@ function Product() {
         {filteredPromoCards.length > 0 ? (
           <>
             <div
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"
               onClick={() => navigate("/disclouse")}
             >
               {displayCards.map((card, index) => (
@@ -487,25 +325,24 @@ function Product() {
               ))}
             </div>
 
-            {/* ✅ LOAD MORE BUTTON - BOTTOM OF CARDS */}
+            {/* LOAD MORE BUTTON */}
             {hasMoreCards && (
-              <div className="mt-5 pt-5 border-t border-gray-200">
-                <div className="max-w-2xl mx-auto text-center py-1">
+              <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-200">
+                <div className="max-w-2xl mx-auto text-center py-4 sm:py-6">
                   <button
                     onClick={() => setShowAllCards(true)}
                     className="
-                      inline-flex items-center gap-2 px-6 py-6
-                      bg-gradient-to-r from-orange-600 to-orange-600
-                      hover:from-orange-700 hover:to-orange-700
-                      text-white font-semibold text-lg
+                      inline-flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-3.5
+                      bg-gradient-to-r from-orange-400 to-orange-400
+                      hover:from-orange-500 hover:to-orange-500
+                      text-white font-semibold text-base sm:text-lg
                       rounded-2xl shadow-xl hover:shadow-2xl
-                      transform hover:-translate-y-1
+                      transform hover:-translate-y-1 hover:scale-[1.02]
                       transition-all duration-300
-                      border-0 focus:outline-none focus:ring-4 focus:ring-indigo-500/50
+                      border-0 focus:outline-none focus:ring-4 focus:ring-orange-500/50
                     "
                   >
-                   
-                    See All {filteredPromoCards.length} Categories
+                    View More 
                   </button>
                   <p className="text-sm text-gray-500 mt-3">
                     Click to view complete collection
@@ -515,44 +352,26 @@ function Product() {
             )}
           </>
         ) : (
-          <div className="text-center py-16 bg-gray-50 rounded-2xl">
-            <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-amber-100 rounded-full">
-              <Search className="h-8 w-8 text-amber-600" />
+          <div className="text-center py-16 sm:py-10 bg-gray-50/50 rounded-2xl backdrop-blur-sm">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 flex items-center justify-center bg-orange-100 rounded-full">
+              <Search className="h-8 w-8 sm:h-10 sm:w-10 text-orange-600" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">
+            <h3 className="text-xl sm:text-2xl font-semibold text-gray-700 mb-2">
               No products found
             </h3>
-            <p className="text-gray-500 mb-6">
-              {searchTerm.trim() !== "" && selectedCategory !== "All"
-                ? `No products found for "${searchTerm}" in ${selectedCategory}. Try a different search or category.`
-                : searchTerm.trim() !== ""
+            <p className="text-gray-500 mb-6 sm:mb-8 text-sm sm:text-base max-w-md mx-auto">
+              {searchTerm.trim() !== ""
                 ? `No products found for "${searchTerm}". Try a different search term.`
-                : `No products found in ${selectedCategory}. Try selecting a different category.`}
+                : "No products available."}
             </p>
-            <div className="flex gap-3 justify-center">
-              {searchTerm.trim() !== "" && (
-                <button
-                  onClick={() => setSearchTerm("")}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-300 transition-colors"
-                >
-                  Clear Search
-                </button>
-              )}
-              {selectedCategory !== "All" && (
-                <button
-                  onClick={() => setSelectedCategory("All")}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-300 transition-colors"
-                >
-                  Clear Category
-                </button>
-              )}
+            {searchTerm.trim() !== "" && (
               <button
-                onClick={handleResetFilters}
-                className="px-6 py-2 bg-amber-600 text-white font-medium rounded-xl hover:bg-amber-700 transition-colors"
+                onClick={() => setSearchTerm("")}
+                className="px-6 py-2.5 sm:px-8 sm:py-3 bg-orange-600 text-white font-medium text-sm sm:text-base rounded-xl hover:bg-orange-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
               >
-                Reset All Filters
+                Clear Search
               </button>
-            </div>
+            )}
           </div>
         )}
       </div>

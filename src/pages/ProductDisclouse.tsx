@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import companyLogo from "../assets/company-logo.png"; // Adjust the path if your logo is in a different location
-import ContactToggle from '../components/ContactToggle';
+import companyLogo from "../assets/company-logo.png";
+
+import Form from "../components/Form";
 
 interface Product {
   id: number;
   name: string;
   brand: string;
   description: string;
- 
   image: string;
   gstRate: string;
 }
@@ -20,255 +20,106 @@ const ProductDisclose: React.FC = () => {
   const [gstFilterOpen, setGstFilterOpen] = useState(false);
   const [selectedProductType, setSelectedProductType] = useState<string>('All Brands');
   const [selectedGstRate, setSelectedGstRate] = useState<string>('All GST Rates');
+  const [openForm, setOpenForm] = useState(false);
+  
+  // Form state
+  const [formData, setFormData] = useState({
+    name: '',
+    countryCode: '+91',
+    phone: '',
+    reason: '',
+    otherReason: '',
+    category: ''
+  });
 
-const products: Product[] = [
-  { 
-    id: 1, 
-    name: 'RX4901 / RX IMOLA PC / FLAT SCREEN / KEYBOARD', 
-    brand: 'RANDOX', 
-    description: 'ACCESSORIS FOR MACHINERY', 
-    gstRate: '5%', 
-    image: 'https://dlcdnrog.asus.com/rog/media/176645697463.webp' 
-  },
-  { 
-    id: 2, 
-    name: 'ACWPS-TYPE 6 / DI WATERPLANT 25LPH', 
-    brand: 'RANDOX', 
-    description: 'ACCESSORIS FOR MACHINERY', 
-    gstRate: '5%', 
-    image: 'https://5.imimg.com/data5/IOS/Default/2020/12/AC/DF/LM/38175998/product-jpeg-500x500.png' 
-  },
-  { 
-    id: 3, 
-    name: 'ACCU CHECK ACTIVE KIT N', 
-    brand: 'ROCHE', 
-    description: 'ACCESSORIS FOR MACHINERY', 
-    gstRate: '12%', 
-    image: 'https://www.colmed.in/pub/media/catalog/product/cache/9032ff7ba287d48c7a6aa389b5ca9462/f/i/first_image_active.jpg' 
-  },
-  { 
-    id: 4, 
-    name: 'ACCU CHECK GUIDE TEST STRIPS', 
-    brand: 'ROCHE', 
-    description: 'ACCESSORIS FOR MACHINERY', 
-    gstRate: '12%', 
-    image: 'https://m.media-amazon.com/images/I/61pTClimq8L.jpg' 
-  },
-  { 
-    id: 5, 
-    name: 'ACCU CHECK ACTIVE TEST STRIPS', 
-    brand: 'ROCHE', 
-    description: 'ACCESSORIS FOR MACHINERY', 
-    gstRate: '12%', 
-    image: 'https://cdn01.pharmeasy.in/dam/products_otc/000665/accu-chek-active-glucometer-test-strips-box-of-50-6.1-1734607563.jpg' 
-  },
-  { 
-    id: 6, 
-    name: 'ACCU CHECK PERFORMA TEST STRIPS', 
-    brand: 'ROCHE', 
-    description: 'ACCESSORIS FOR MACHINERY', 
-    gstRate: '12%', 
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1XJjhySZ6M224Z-sMa8iRl7ihXiqypdIAQg&s' 
-  },
-  { 
-    id: 7, 
-    name: 'ACCU CHECK INSTANT STRIPS', 
-    brand: 'ROCHE', 
-    description: 'ACCESSORIS FOR MACHINERY', 
-    gstRate: '12%', 
-    image: 'https://m.media-amazon.com/images/I/41lj3M7qwOL._AC_UF350,350_QL80_.jpg' 
-  },
-  { 
-    id: 8, 
-    name: 'ACCU CHECK SOFTCLIX LANCETS', 
-    brand: 'ROCHE', 
-    description: 'ACCESSORIS FOR MACHINERY', 
-    gstRate: '12%', 
-    image: 'https://cdn01.pharmeasy.in/dam/products_otc/000685/accu-chek-softclix-lancet-25s-pack-2-1671741296.jpg' 
-  },
-];
+  const products: Product[] = [
+    { 
+      id: 1, 
+      name: 'RX4901 / RX IMOLA PC / FLAT SCREEN / KEYBOARD', 
+      brand: 'RANDOX', 
+      description: 'ACCESSORIS FOR MACHINERY', 
+      gstRate: '5%', 
+      image: 'https://dlcdnrog.asus.com/rog/media/176645697463.webp' 
+    },
+    { 
+      id: 2, 
+      name: 'ACWPS-TYPE 6 / DI WATERPLANT 25LPH', 
+      brand: 'RANDOX', 
+      description: 'ACCESSORIS FOR MACHINERY', 
+      gstRate: '5%', 
+      image: 'https://5.imimg.com/data5/IOS/Default/2020/12/AC/DF/LM/38175998/product-jpeg-500x500.png' 
+    },
+    { 
+      id: 3, 
+      name: 'ACCU CHECK ACTIVE KIT N', 
+      brand: 'ROCHE', 
+      description: 'ACCESSORIS FOR MACHINERY', 
+      gstRate: '12%', 
+      image: 'https://www.colmed.in/pub/media/catalog/product/cache/9032ff7ba287d48c7a6aa389b5ca9462/f/i/first_image_active.jpg' 
+    },
+    { 
+      id: 4, 
+      name: 'ACCU CHECK GUIDE TEST STRIPS', 
+      brand: 'ROCHE', 
+      description: 'ACCESSORIS FOR MACHINERY', 
+      gstRate: '12%', 
+      image: 'https://m.media-amazon.com/images/I/61pTClimq8L.jpg' 
+    },
+    { 
+      id: 5, 
+      name: 'ACCU CHECK ACTIVE TEST STRIPS', 
+      brand: 'ROCHE', 
+      description: 'ACCESSORIS FOR MACHINERY', 
+      gstRate: '12%', 
+      image: 'https://cdn01.pharmeasy.in/dam/products_otc/000665/accu-chek-active-glucometer-test-strips-box-of-50-6.1-1734607563.jpg' 
+    },
+    { 
+      id: 6, 
+      name: 'ACCU CHECK PERFORMA TEST STRIPS', 
+      brand: 'ROCHE', 
+      description: 'ACCESSORIS FOR MACHINERY', 
+      gstRate: '12%', 
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1XJjhySZ6M224Z-sMa8iRl7ihXiqypdIAQg&s' 
+    },
+    { 
+      id: 7, 
+      name: 'ACCU CHECK INSTANT STRIPS', 
+      brand: 'ROCHE', 
+      description: 'ACCESSORIS FOR MACHINERY', 
+      gstRate: '12%', 
+      image: 'https://m.media-amazon.com/images/I/41lj3M7qwOL._AC_UF350,350_QL80_.jpg' 
+    },
+    { 
+      id: 8, 
+      name: 'ACCU CHECK SOFTCLIX LANCETS', 
+      brand: 'ROCHE', 
+      description: 'ACCESSORIS FOR MACHINERY', 
+      gstRate: '12%', 
+      image: 'https://cdn01.pharmeasy.in/dam/products_otc/000685/accu-chek-softclix-lancet-25s-pack-2-1671741296.jpg' 
+    },
+  ];
 
-const productTypes = [
-  'All Brands',
-  'Premium',
-  'Standard',
-  'Budget Friendly',
-  '365 Medical',
-  'ACCUSURE',
-  'ACETO PHARMA',
-  'ACRIOL',
-  'ACTYLIS',
-  'ADLEY',
-  'ADVANCE',
-  'AEQUITAS',
-  'AERON',
-  'AGARWAL',
-  'AGROMED',
-  'AHUJA',
-  'AJOONI',
-  'AKSHAR',
-  'ALBERT DAVID',
-  'ALKEM',
-  'ALLENGERS',
-  'AMAR',
-  'AMAZING',
-  'AMBICA',
-  'AMERICAN ORTHO',
-  'ANGEL',
-  'APOLLO',
-  'ARBRO',
-  'ARISTO',
-  'ARROW',
-  'ASCLEPIUS',
-  'ASHOK',
-  'ASIA',
-  'ASTRA',
-  'ATC',
-  'ATUL',
-  'AUROBINDO',
-  'AXIS',
-  'BAIDYANATH',
-  'BAJAJ',
-  'BAXTER',
-  'BECTON',
-  'BEHL',
-  'BELCO',
-  'BESCO',
-  'BHARAT',
-  'BIOLAB',
-  'BIONEEDS',
-  'BIOSYS',
-  'BLUE CROSS',
-  'BPL',
-  'CADILA',
-  'CAPRI',
-  'CIPLA',
-  'CLARIS',
-  'COFORGE',
-  'CONCEPT',
-  'CONTEC',
-  'CORAL',
-  'CRESCENT',
-  'CROWN',
-  'DABUR',
-  'DEEPAK',
-  'DELTA',
-  'DENIS',
-  'DR MOREPEN',
-  'DR REDDY',
-  'EASY CARE',
-  'ELEGANT',
-  'EMAMI',
-  'EMCO',
-  'ETHICON',
-  'EVEREST',
-  'FDC',
-  'FRESENIUS',
-  'GALAXY',
-  'GARNET',
-  'GENERIC',
-  'GLENMARK',
-  'GSK',
-  'HIMALAYA',
-  'HLL',
-  'HOSPIMED',
-  'HOSPITECH',
-  'ICPA',
-  'INNOVATIVE',
-  'INTAS',
-  'J K',
-  'JOHNSON',
-  'JUBILANT',
-  'KAVERI',
-  'KEPLER',
-  'KIRAN',
-  'KONICA',
-  'LA RENON',
-  'LIFELINE',
-  'LINDE',
-  'LLOYD',
-  'LOHMANN',
-  'MACLEODS',
-  'MAHINDRA',
-  'MANFORCE',
-  'MARK',
-  'MDC',
-  'MEDI CARE',
-  'MEDICO',
-  'MEDITECH',
-  'MEDTRONIC',
-  'MEGHDOOT',
-  'MERIL',
-  'MICRO',
-  'MINDRAY',
-  'MOTHERSON',
-  'NEON',
-  'NIPRO',
-  'NOVARTIS',
-  'OMRON',
-  'ONE TOUCH',
-  'ORCHID',
-  'PANACEA',
-  'PFIZER',
-  'PHILIPS',
-  'POLYMED',
-  'RANDOX',
-  'RANBAXY',
-  'RECKITT',
-  'RELAX',
-  'RELIANCE',
-  'ROCHE',
-  'ROMSON',
-  'SANOFI',
-  'SARAL',
-  'SAVION',
-  'SEAGULL',
-  'SERUM',
-  'SHALINA',
-  'SIEMENS',
-  'SIGNATURE',
-  'SINTEX',
-  'SMITH & NEPHEW',
-  'SUN PHARMA',
-  'SURGICARE',
-  'SUTURE',
-  'TATA',
-  'TERUMO',
-  'TORRENT',
-  'UNIQUE',
-  'UNITED',
-  'UROMED',
-  'VISSCO',
-  'Vissco',
-  'VOLK',
-  'WELMED',
-  'XINLE',
-  'YAM',
-  'ZEDEX',
-  'ZYDUS'
-];
+  const productTypes = [
+    'All Brands', 'RANDOX', 'ROCHE', 'Premium', 'Standard', 'Budget Friendly'
+  ];
+  
   const gstRates = ['All GST Rates', '5%', '12%', '18%', '28%'];
 
   const filteredProducts = products.filter(product => {
-  // Search filter: matches product name or brand
-  const matchesSearch =
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.brand.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.brand.toLowerCase().includes(searchTerm.toLowerCase());
 
-  // Brand/Product Type filter
-  const matchesBrand =
-    selectedProductType === 'All Brands' ||
-    product.brand.toLowerCase() === selectedProductType.toLowerCase();
+    const matchesBrand =
+      selectedProductType === 'All Brands' ||
+      product.brand.toLowerCase() === selectedProductType.toLowerCase();
 
-  // GST Rate filter
-  const matchesGst =
-    selectedGstRate === 'All GST Rates' ||
-    product.gstRate === selectedGstRate;
+    const matchesGst =
+      selectedGstRate === 'All GST Rates' ||
+      product.gstRate === selectedGstRate;
 
-  // Return only products that satisfy all active filters
-  return matchesSearch && matchesBrand && matchesGst;
-});
-
+    return matchesSearch && matchesBrand && matchesGst;
+  });
 
   const getGstBadgeColor = (gstRate: string): { bg: string, text: string } => {
     switch(gstRate) {
@@ -285,11 +136,33 @@ const productTypes = [
     }
   };
 
+  const handleFormDataChange = (data: any) => {
+    setFormData(data);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    // Add your API call here
+    setOpenForm(false);
+    // Reset form
+    setFormData({
+      name: '',
+      countryCode: '+91',
+      phone: '',
+      reason: '',
+      otherReason: '',
+      category: ''
+    });
+  };
+
   return (
     <div className="helios-app">
-      <ContactToggle/>
+      
       <style>{`
-        
+        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes zoom-in { from { transform: scale(0.95); } to { transform: scale(1); } }
+        @keyframes slide-in-from-bottom-4 { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         * {
           margin: 0;
@@ -321,7 +194,6 @@ const productTypes = [
 
         .helios-app {
           min-height: 100vh;
-        
           background: var(--cream);
           color: var(--text-primary);
           position: relative;
@@ -340,6 +212,63 @@ const productTypes = [
           z-index: 0;
         }
 
+        /* Modal Styles */
+        .modal-overlay {
+          position: fixed;
+          inset: 0;
+          z-[10000];
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1rem;
+          background: rgba(0, 0, 0, 0.5);
+          backdrop-filter: blur(8px);
+          animation: fade-in 0.2s ease-out;
+        }
+
+        .modal-content {
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(32px);
+          border-radius: 24px;
+          padding: 2rem;
+          max-width: 28rem;
+          width: 100%;
+          max-height: 90vh;
+          overflow-y: auto;
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          animation: slide-in-from-bottom-4 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: var(--text-primary);
+        }
+
+        .modal-close {
+          padding: 0.5rem;
+          background: none;
+          border: none;
+          font-size: 1.25rem;
+          cursor: pointer;
+          border-radius: 12px;
+          transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+          background: rgba(249, 115, 22, 0.1);
+          color: #f97316;
+        }
+
+        /* Rest of your existing CSS stays the same */
         .header {
           background: rgba(255, 255, 255, 0.95);
           backdrop-filter: blur(32px) saturate(180%);
@@ -405,27 +334,47 @@ const productTypes = [
           gap: 1rem;
         }
 
-        .breadcrumb {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 0.8125rem;
-          color: var(--text-secondary);
-          white-space: nowrap;
+        .search-container {
+          position: relative;
+          width: 300px;
         }
 
-        .breadcrumb-item {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          cursor: pointer;
-          transition: color 0.3s ease;
-          font-weight: 500;
+        .search-box {
+          width: 100%;
+          padding: 0.75rem 1.25rem 0.75rem 2.75rem;
+          border: 1.5px solid var(--border);
+          border-radius: 50px;
+          font-size: 0.875rem;
+          font-family: 'DM Sans', sans-serif;
+          background: var(--soft-white);
+          color: var(--text-primary);
+          outline: none;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .breadcrumb-item:hover { color: #f97316; }
-        .breadcrumb-item.active { color: #f97316; font-weight: 600; }
-        .breadcrumb-separator { color: var(--text-muted); font-size: 0.75rem; }
+        .search-container::before {
+          content: '⌕';
+          position: absolute;
+          left: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          color: var(--text-muted);
+          font-size: 1rem;
+          pointer-events: none;
+        }
+
+        .search-box::placeholder { color: var(--text-muted); font-size: 0.875rem; }
+        .search-box:focus {
+          border-color: #f97316;
+          box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+          background: var(--soft-white);
+        }
+
+        .filter-row {
+          display: flex;
+          gap: 0.5rem;
+          flex: 1;
+        }
 
         .filter-dropdown-wrapper { position: relative; }
         
@@ -469,26 +418,22 @@ const productTypes = [
         .filter-dropdown-btn.open .arrow { transform: rotate(180deg); }
 
         .filter-dropdown-menu {
-  position: absolute;
-  top: calc(100% + 0.5rem);
-  right: 0;
-  background: var(--soft-white);
-  border: 1.5px solid var(--border);
-  border-radius: 16px;
-  box-shadow: var(--shadow-lg);
-  min-width: 200px;
-
-  /* ✅ FIXED HEIGHT + SCROLL */
-  max-height: 400px;
-  overflow-y: auto;
-
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 1000;
-}
-
+          position: absolute;
+          top: calc(100% + 0.5rem);
+          right: 0;
+          background: var(--soft-white);
+          border: 1.5px solid var(--border);
+          border-radius: 16px;
+          box-shadow: var(--shadow-lg);
+          min-width: 200px;
+          max-height: 400px;
+          overflow-y: auto;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-10px);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 1000;
+        }
 
         .filter-dropdown-menu.open {
           opacity: 1;
@@ -513,55 +458,11 @@ const productTypes = [
           color: #f97316;
           font-weight: 600;
         }
-.filter-dropdown-menu::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-
-.filter-dropdown-menu {
-  scrollbar-width: none; /* Firefox */
-}
 
         .filter-dropdown-item.selected::before {
           content: '✓ ';
           color: #f97316;
           font-weight: 700;
-        }
-
-        .search-container {
-          position: relative;
-          width: 300px;
-        }
-
-        .search-box {
-          width: 100%;
-          padding: 0.75rem 1.25rem 0.75rem 2.75rem;
-          border: 1.5px solid var(--border);
-          border-radius: 50px;
-          font-size: 0.875rem;
-          font-family: 'DM Sans', sans-serif;
-          background: var(--soft-white);
-          color: var(--text-primary);
-          outline: none;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .search-container::before {
-          content: '⌕';
-          position: absolute;
-          left: 1rem;
-          top: 50%;
-          transform: translateY(-50%);
-          color: var(--text-muted);
-          font-size: 1rem;
-          pointer-events: none;
-        }
-
-        .search-box::placeholder { color: var(--text-muted); font-size: 0.875rem; }
-        .search-box:focus {
-          border-color: #f97316;
-          box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
-          background: var(--soft-white);
         }
 
         .main-container {
@@ -578,7 +479,6 @@ const productTypes = [
         }
 
         .category-page-title {
-          
           font-size: 2.25rem;
           font-weight: 700;
           color: var(--text-primary);
@@ -620,15 +520,6 @@ const productTypes = [
           flex-direction: column;
         }
 
-        .product-card:nth-child(1) { animation-delay: 0.1s; }
-        .product-card:nth-child(2) { animation-delay: 0.15s; }
-        .product-card:nth-child(3) { animation-delay: 0.2s; }
-        .product-card:nth-child(4) { animation-delay: 0.25s; }
-        .product-card:nth-child(5) { animation-delay: 0.3s; }
-        .product-card:nth-child(6) { animation-delay: 0.35s; }
-        .product-card:nth-child(7) { animation-delay: 0.4s; }
-        .product-card:nth-child(8) { animation-delay: 0.45s; }
-
         @keyframes fadeInUp {
           from { transform: translateY(40px); opacity: 0; }
           to { transform: translateY(0); opacity: 1; }
@@ -667,7 +558,6 @@ const productTypes = [
           box-shadow: var(--shadow-sm);
           letter-spacing: 0.5px;
           backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
         }
 
         .product-info { 
@@ -687,7 +577,6 @@ const productTypes = [
         }
 
         .product-name {
-          
           font-size: 1.125rem;
           font-weight: 600;
           margin-bottom: 0.75rem;
@@ -729,36 +618,9 @@ const productTypes = [
         .details-btn:hover {
           background: #f97316;        
           border-color: #f97316;    
-          color: #ffffff;             
+          color: #ffffff;           
           transform: translateY(-2px);
           box-shadow: var(--shadow-sm);
-        }
-
-        .cart-btn {
-          position: fixed;
-          bottom: 2rem;
-          right: 2rem;
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, #f97316, #fb923c);
-          border: none;
-          color: white;
-          font-size: 1.25rem;
-          font-weight: 700;
-          cursor: pointer;
-          box-shadow: var(--shadow-lg);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          z-index: 999;
-          text-decoration: none;
-        }
-
-        .cart-btn:hover {
-          transform: translateY(-4px) scale(1.05);
-          box-shadow: 0 16px 32px rgba(249, 115, 22, 0.3);
         }
 
         .no-products {
@@ -770,7 +632,7 @@ const productTypes = [
           font-weight: 500;
         }
 
-        /* Responsive Design */
+        /* Responsive */
         @media (max-width: 1200px) {
           .products-grid {
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -788,10 +650,6 @@ const productTypes = [
 
           .header-left {
             width: 100%;
-            justify-content: center;
-          }
-          
-          .header-logo {
             justify-content: center;
           }
           
@@ -814,55 +672,11 @@ const productTypes = [
             order: 1;
           }
 
-          .filter-dropdown-wrapper { flex: 1; }
-          
-          .filter-dropdown-btn {
-            width: 100%;
-            justify-content: center;
-            padding: 0.625rem 0.75rem;
-            font-size: 0.75rem;
-          }
-          
-          .filter-dropdown-menu {
-            right: auto;
-            left: 0;
-            width: 100%;
-          }
-
-          .logo-img {
-            width: 36px;
-            height: 36px;
-          }
-
-          .brand-name {
-            font-size: 1.1rem;
-          }
-
           .main-container {
             padding: 10rem 1.5rem 2rem;
           }
-
-          .products-grid {
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 1.5rem;
-          }
-
-          .category-page-header {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-          }
-
-          .category-page-title { font-size: 1.75rem; }
-          .category-page-description { font-size: 0.9375rem; }
-
-          .cart-btn {
-            bottom: 1.5rem;
-            right: 1.5rem;
-            width: 56px;
-            height: 56px;
-          }
         }
-        
+
         @media (max-width: 768px) {
           .main-container {
             padding: 10rem 1rem 1.5rem;
@@ -871,128 +685,6 @@ const productTypes = [
           .products-grid {
             grid-template-columns: 1fr;
             gap: 1.5rem;
-          }
-
-          .product-image-container {
-            height: 200px;
-          }
-          
-          .product-name {
-            font-size: 1.25rem;
-          }
-
-          .cart-btn {
-            bottom: 1rem;
-            right: 1rem;
-            width: 52px;
-            height: 52px;
-            font-size: 1.1rem;
-          }
-
-          .category-page-title { 
-            font-size: 1.5rem; 
-          }
-          
-          .category-page-description { 
-            font-size: 0.875rem; 
-          }
-        }
-
-        @media (max-width: 480px) {
-          .header {
-            padding: 0.875rem 1rem;
-          }
-
-          .logo-img {
-            width: 32px;
-            height: 32px;
-          }
-
-          .brand-name {
-            font-size: 0.95rem;
-          }
-
-          .filter-dropdown-btn {
-            font-size: 0.7rem;
-            padding: 0.55rem 0.65rem;
-          }
-
-          .search-box {
-            font-size: 0.8125rem;
-            padding: 0.65rem 1rem 0.65rem 2.5rem;
-          }
-
-          .main-container {
-            padding: 10rem 0.75rem 1rem;
-          }
-
-          .category-page-title {
-            font-size: 1.375rem;
-          }
-
-          .category-page-description {
-            font-size: 0.8125rem;
-          }
-
-          .products-count {
-            font-size: 0.8125rem;
-          }
-
-          .product-info {
-            padding: 1.25rem;
-          }
-
-          .product-name {
-            font-size: 1.125rem;
-          }
-
-          .product-description {
-            font-size: 0.8125rem;
-          }
-
-          .details-btn {
-            padding: 0.65rem 1.5rem;
-            font-size: 0.8125rem;
-          }
-        }
-        
-        @media (max-width: 380px) {
-          .brand-name {
-            font-size: 0.875rem;
-          }
-
-          .filter-dropdown-btn {
-            font-size: 0.65rem;
-            padding: 0.5rem 0.5rem;
-          }
-
-          .logo-img {
-            width: 28px;
-            height: 28px;
-          }
-
-          .category-page-title {
-            font-size: 1.25rem;
-          }
-
-          .product-badge {
-            font-size: 0.65rem;
-            padding: 0.4rem 0.75rem;
-          }
-        }
-
-        @media (max-width: 320px) {
-          .brand-name {
-            font-size: 0.75rem;
-          }
-
-          .filter-dropdown-btn {
-            font-size: 0.6rem;
-            padding: 0.45rem 0.4rem;
-          }
-
-          .search-box {
-            font-size: 0.75rem;
           }
         }
       `}</style>
@@ -1005,20 +697,18 @@ const productTypes = [
           </div>
         </div>
 
-<div className="search-container">
-            <input 
-              type="text" 
-              className="search-box" 
-              placeholder="Search equipment..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-
-        
+        <div className="search-container">
+          <input 
+            type="text" 
+            className="search-box" 
+            placeholder="Search equipment..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
 
         <div className="header-right">
-          <div className="filter-row" style={{ display: 'flex', gap: '0.5rem', flex: 1 }}>
+          <div className="filter-row">
             <div className="filter-dropdown-wrapper">
               <button 
                 className={`filter-dropdown-btn ${productFilterOpen || selectedProductType !== 'All Brands' ? 'active' : ''} ${productFilterOpen ? 'open' : ''}`}
@@ -1061,10 +751,7 @@ const productTypes = [
               </div>
             </div>
           </div>
-
-          
         </div>
-
       </header>
 
       <main className="main-container">
@@ -1098,7 +785,12 @@ const productTypes = [
                     <h3 className="product-name">{product.name}</h3>
                     <p className="product-description">{product.description}</p>
                     <div className="product-footer">
-                      <button className="details-btn">Contact Us</button>
+                      <button
+                        className="details-btn"
+                        onClick={() => setOpenForm(true)}
+                      >
+                        Contact Us
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1111,7 +803,34 @@ const productTypes = [
           )}
         </div>
       </main>
+
+      {/* Contact Form Modal */}
+      {openForm && (
+        <div className="modal-overlay" onClick={(e) => {
+          if (e.target === e.currentTarget) setOpenForm(false);
+        }}>
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2 className="modal-title">Request Callback</h2>
+              <button
+                className="modal-close"
+                onClick={() => setOpenForm(false)}
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <Form
+              formData={formData}
+              onFormDataChange={handleFormDataChange}
+              onSubmit={handleSubmit}
+            />
+          </div>
+        </div>
+      )}
     </div>
+    
   );
 };
 

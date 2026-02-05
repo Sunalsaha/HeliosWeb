@@ -11,22 +11,23 @@ const AboutusFoundationSection = () => {
           <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-orange-500 to-amber-500 mx-auto" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Mission */}
-          <div className="group relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-[0_20px_40px_rgba(15,23,42,0.08)] border border-orange-100 overflow-hidden hover:shadow-[0_35px_70px_rgba(15,23,42,0.12)] hover:-translate-y-1 hover:bg-white transition-all duration-500 hover:border-orange-200">
-            <div className="h-1.5 w-full bg-gradient-to-r from-orange-400 to-amber-400 rounded-t-3xl group-hover:from-orange-500 group-hover:to-amber-500 transition-all duration-500 " />
 
-            <div className="px-8 pb-10 pt-10 flex flex-col items-center text-center relative z-10">
-              <div className="mb-8">
-                <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-orange-500/90 to-amber-500/90 flex items-center justify-center  border-4 border-white/50 group-hover:] group-hover:scale-105 transition-all duration-500 group-hover:rotate-12">
-                  <Target className="w-10 h-10 text-white" />
+       <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+          {/* Mission */}
+          <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-[0_10px_25px_rgba(15,23,42,0.08)] border border-orange-100 overflow-hidden hover:shadow-[0_20px_40px_rgba(15,23,42,0.12)] hover:-translate-y-1 hover:bg-white transition-all duration-500 hover:border-orange-200 flex flex-col max-w-xs ">
+            <div className="h-1.5 w-full bg-gradient-to-r from-orange-400 to-amber-400 rounded-t-2xl group-hover:from-orange-500 group-hover:to-amber-500 transition-all duration-500" />
+
+            <div className="flex-1 px-6 pb-6 pt-6 flex flex-col items-center justify-center text-center relative z-10">
+              <div className="mb-4">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500/90 to-amber-500/90 flex items-center justify-center border-4 border-white/50 group-hover:scale-105 transition-all duration-500 group-hover:rotate-12">
+                  <Target className="w-7 h-7 text-white" />
                 </div>
               </div>
 
-              <h3 className="text-2xl sm:text-3xl font-bold mb-6 group-hover:text-orange-500 transition-all duration-500 text-slate-900">
+              <h3 className="text-xl font-bold mb-3 group-hover:text-orange-500 transition-all duration-500 text-slate-900">
                 Our Mission
               </h3>
-              <p className="text-base sm:text-lg leading-relaxed text-slate-600 max-w-md mx-auto group-hover:text-slate-800 transition-all duration-500">
+              <p className="text-sm leading-relaxed text-slate-600 group-hover:text-slate-800 transition-all duration-500 px-2">
                 To revolutionize healthcare delivery through innovative medical
                 technology that empowers healthcare professionals and improves
                 patient outcomes globally.
@@ -35,20 +36,20 @@ const AboutusFoundationSection = () => {
           </div>
 
           {/* Vision */}
-          <div className="group relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-[0_20px_40px_rgba(15,23,42,0.08)] border border-orange-100  overflow-hidden hover:shadow-[0_35px_70px_rgba(15,23,42,0.12)] hover:-translate-y-1 hover:bg-white transition-all duration-500 hover:border-orange-200">
-            <div className="h-1.5 w-full bg-gradient-to-r from-orange-400 to-amber-400 rounded-t-3xl group-hover:from-orange-500 group-hover:to-amber-500 transition-all duration-500" />
+          <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-[0_10px_25px_rgba(15,23,42,0.08)] border border-orange-100 overflow-hidden hover:shadow-[0_20px_40px_rgba(15,23,42,0.12)] hover:-translate-y-1 hover:bg-white transition-all duration-500 hover:border-orange-200 flex flex-col max-w-xs">
+            <div className="h-1.5 w-full bg-gradient-to-r from-orange-400 to-amber-400 rounded-t-2xl group-hover:from-orange-500 group-hover:to-amber-500 transition-all duration-500" />
 
-            <div className="px-8 pb-10 pt-10 flex flex-col items-center text-center relative z-10">
-              <div className="mb-8">
-                <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-orange-500/90 to-amber-500/90 flex items-center justify-center  border-4 border-white/50 group-hover: group-hover:scale-105 transition-all duration-500 group-hover:rotate-12">
-                  <Eye className="w-10 h-10 text-white" />
+            <div className="flex-1 px-6 pb-6 pt-6 flex flex-col items-center justify-center text-center relative">
+              <div className="mb-4">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500/90 to-amber-500/90 flex items-center justify-center border-4 border-white/50 group-hover:scale-105 transition-all duration-500 group-hover:rotate-12">
+                  <Eye className="w-7 h-7 text-white" />
                 </div>
               </div>
 
-              <h3 className="text-2xl sm:text-3xl font-bold mb-6 group-hover:text-orange-500 transition-all duration-500 text-slate-900">
+              <h3 className="text-xl font-bold mb-3 group-hover:text-orange-500 transition-all duration-500 text-slate-900">
                 Our Vision
               </h3>
-              <p className="text-base sm:text-lg leading-relaxed text-slate-600 max-w-md mx-auto group-hover:text-slate-800 transition-all duration-500">
+              <p className="text-sm leading-relaxed text-slate-600 group-hover:text-slate-800 transition-all duration-500 px-2">
                 To be the global leader in intelligent medical systems, creating
                 a future where advanced technology seamlessly enhances human
                 healthcare capabilities.
@@ -57,20 +58,20 @@ const AboutusFoundationSection = () => {
           </div>
 
           {/* Values */}
-          <div className="group relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-[0_20px_40px_rgba(15,23,42,0.08)] border border-orange-100  overflow-hidden hover:shadow-[0_35px_70px_rgba(15,23,42,0.12)] hover:-translate-y-1 hover:bg-white transition-all duration-500 hover:border-orange-200">
-            <div className="h-1.5 w-full bg-gradient-to-r from-orange-400 to-amber-400 rounded-t-3xl group-hover:from-orange-500 group-hover:to-amber-500 transition-all duration-500" />
+          <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-[0_10px_25px_rgba(15,23,42,0.08)] border border-orange-100 overflow-hidden hover:shadow-[0_20px_40px_rgba(15,23,42,0.12)] hover:-translate-y-1 hover:bg-white transition-all duration-500 hover:border-orange-200  flex flex-col max-w-xs ">
+            <div className="h-1.5 w-full bg-gradient-to-r from-orange-400 to-amber-400 rounded-t-2xl group-hover:from-orange-500 group-hover:to-amber-500 transition-all duration-500" />
 
-            <div className="px-8 pb-10 pt-10 flex flex-col items-center text-center relative z-10">
-              <div className="mb-8">
-                <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-orange-500/90 to-amber-500/90 flex items-center justify-center  border-4 border-white/50 group-hover: group-hover:scale-105 transition-all duration-500 group-hover:rotate-12">
-                  <Heart className="w-10 h-10 text-white" />
+            <div className="flex-1 px-6 pb-6 pt-6 flex flex-col items-center justify-center text-center relative z-10">
+              <div className="mb-4">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500/90 to-amber-500/90 flex items-center justify-center border-4 border-white/50 group-hover:scale-105 transition-all duration-500 group-hover:rotate-12">
+                  <Heart className="w-7 h-7 text-white" />
                 </div>
               </div>
 
-              <h3 className="text-2xl sm:text-3xl font-bold mb-6 group-hover:text-orange-500 transition-all duration-500 text-slate-900">
+              <h3 className="text-xl font-bold mb-3 group-hover:text-orange-500 transition-all duration-500 text-slate-900">
                 Our Values
               </h3>
-              <p className="text-base sm:text-lg leading-relaxed text-slate-600 max-w-md mx-auto group-hover:text-slate-800 transition-all duration-500">
+              <p className="text-sm leading-relaxed text-slate-600 group-hover:text-slate-800 transition-all duration-500 px-2">
                 Innovation, integrity, collaboration, and excellence guide
                 everything we do, ensuring we deliver solutions that truly make
                 a difference.

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Search, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import companyLogo from "../assets/company-logo.png";
 
 function NavberDashboard() {
@@ -22,7 +22,7 @@ function NavberDashboard() {
     { name: "About Us", path: "/about" },
   ];
 
-  const isActivePage = (path:any) => location.pathname === path;
+  const isActivePage = (path: any) => location.pathname === path;
 
   return (
     <nav
@@ -39,16 +39,19 @@ function NavberDashboard() {
             <img
               src={companyLogo}
               alt="Company logo"
-              className="w-12 h-12"
+              className="w-10 h-10 sm:w-12 sm:h-12"
               style={{ objectFit: "contain" }}
             />
-            <span className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+            <span className="hidden sm:block text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
               HELIOS MEDICAL SYSTEMS
+            </span>
+            <span className="sm:hidden text-lg font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+              HELIOS
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
+          {/* Desktop Navigation - Centered */}
+          <div className="hidden lg:flex items-center space-x-8 mx-auto absolute left-1/2 transform -translate-x-1/2">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -67,17 +70,6 @@ function NavberDashboard() {
                 />
               </Link>
             ))}
-          </div>
-
-          {/* Search Bar */}
-          <div className="hidden md:flex items-center space-x-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4 text-gray-600" />
-              <input
-                placeholder="Search medical systems..."
-                className="pl-10 w-64 h-10 rounded-full bg-white/80 border border-[#d3d3d3] focus:outline-[#fa8202e6]  focus:border-primary "
-              />
-            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -116,15 +108,6 @@ function NavberDashboard() {
                   />
                 </Link>
               ))}
-              <div className="pt-4 border-t border-border">
-                <div className="relative mb-4">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                  <input
-                    placeholder="Search medical systems..."
-                    className="pl-10 w-full"
-                  />
-                </div>
-              </div>
             </div>
           </div>
         )}

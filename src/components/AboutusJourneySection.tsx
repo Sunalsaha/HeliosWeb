@@ -44,7 +44,7 @@ const AboutusJourneySection = () => {
                   
                   <div className="ml-6 sm:ml-12 flex-1">
                     {/* Custom Card matching the image design */}
-                    <div className="group-hover:shadow-2xl transition-all duration-500 transform group-hover:translate-x-2 shadow-lg relative overflow-hidden">
+                    <div className="rounded-2xl group-hover:shadow-2xl transition-all duration-500 transform group-hover:translate-x-2 shadow-lg relative overflow-hidden">
                       {/* Card background with rounded corners and subtle shadow */}
                       <div className="bg-[#FEF7F2] border border-orange-200/50 rounded-2xl p-6 lg:p-8 backdrop-blur-sm hover:bg-orange-50/50 transition-all duration-500 relative">
                         {/* Subtle gradient overlay on hover */}
@@ -56,9 +56,9 @@ const AboutusJourneySection = () => {
                         <div className="relative z-10">
                           {/* Year and Calendar row */}
                           <div className="flex items-center mb-4 sm:mb-6 gap-3">
-                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-orange-500 to-amber-500 rounded-xl flex items-center justify-center shadow-lg">
-                              <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                            </div>
+                          
+                              <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />
+                            
                             <span className="text-orange-600 font-bold text-lg sm:text-xl bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent tracking-wide">
                               {milestone.year}
                             </span>
