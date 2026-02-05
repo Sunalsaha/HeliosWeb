@@ -299,7 +299,7 @@ const Hero: React.FC = () => {
             inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
           }`}>
             <ImageSlider />
-            <div className={`absolute -bottom-14 -left-10 bg-white p-5 rounded-xl shadow-lg transition-all duration-1000 ease-out delay-1000 ${
+            <div className={`absolute -bottom-14 lg:-left-10 left-6 bg-white p-5 rounded-xl shadow-lg transition-all duration-1000 ease-out delay-1000 ${
               inView ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"
             }`}>
               <div className="flex items-center space-x-4">
