@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import AboutFootBg from "../assets/AboutFoot.png";
+import AboutFootBg from "../assets/Aboutfoot.png";
 
 interface AboutusEndSectionProps {
   onContactClick?: () => void;
