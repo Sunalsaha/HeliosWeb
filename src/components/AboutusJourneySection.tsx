@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, ChevronRight, Target, Globe, Cpu, Award, Zap } from "lucide-react";
+import JournyImg from "../assets/Journy.png";
+
 
 const milestones = [
   { year: "2010", icon: <Target className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />, title: "Company Founded", description: "HELIOS Medical Systems was established with a vision to revolutionize healthcare technology." },
@@ -116,7 +118,7 @@ const AboutusJourneySection = () => {
       ref={sectionRef}
       className="py-12 sm:py-16 md:py-20 lg:py-24 xl:py-28 bg-gradient-to-br from-white/80 via-orange-50/50 to-white/80 relative overflow-hidden min-h-screen"
       style={{
-        backgroundImage: `url('./src/assets/Journy.png')`,
+          backgroundImage: `url(${JournyImg})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
