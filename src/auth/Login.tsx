@@ -64,7 +64,7 @@ const Login = () => {
     <>
       {/* Full Screen Loader Overlay */}
       {isLoading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm px-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/50 backdrop-blur-sm px-4">
           <div className="flex flex-col items-center space-y-3 max-w-xs w-full">
             <img
               src={loaderGif}

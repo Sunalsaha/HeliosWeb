@@ -16,69 +16,57 @@ const AboutusVedioSection = ({
   description = "Discover how our innovations are shaping the future of healthcare.",
   className = ""
 }: InnovationVideoProps) => {
-  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);     // renamed for clarity
   const [isMuted, setIsMuted] = useState(true);
   const [videoError, setVideoError] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  // Video autoplay logic
+  // Handle video events
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     const handleLoadedData = () => {
       setVideoLoaded(true);
-      console.log('Video loaded successfully');
     };
 
-    const handleError = (e: Event) => {
-      console.error('Video error:', e);
+    const handleError = () => {
       setVideoError(true);
-    };
-
-    const handleCanPlay = () => {
-      if (video && isVideoPlaying) {
-        video.muted = true;
-        setIsMuted(true);
-
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              console.log('Video autoplay started successfully');
-            })
-            .catch((error) => {
-              console.warn('Autoplay was prevented:', error);
-              setIsVideoPlaying(false);
-            });
-        }
-      }
-    };
-
-    const handleLoadStart = () => {
-      console.log('Video started loading');
     };
 
     video.addEventListener('loadeddata', handleLoadedData);
     video.addEventListener('error', handleError);
-    video.addEventListener('canplay', handleCanPlay);
-    video.addEventListener('loadstart', handleLoadStart);
 
+    // Initial load
     video.load();
 
     return () => {
-      if (video) {
-        video.removeEventListener('loadeddata', handleLoadedData);
-        video.removeEventListener('error', handleError);
-        video.removeEventListener('canplay', handleCanPlay);
-        video.removeEventListener('loadstart', handleLoadStart);
-      }
+      video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('error', handleError);
     };
-  }, [isVideoPlaying]);
+  }, []); // ← only once on mount
 
-  // Handle mute/unmute
+  // Sync playing state with actual video
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isPlaying) {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.warn("Play prevented:", err);
+          setIsPlaying(false); // important: stay in sync
+        });
+      }
+    } else {
+      video.pause();
+    }
+  }, [isPlaying]);
+
+  // Sync mute state
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
@@ -86,64 +74,50 @@ const AboutusVedioSection = ({
     }
   }, [isMuted]);
 
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
-  };
-
   const togglePlayPause = () => {
-    const video = videoRef.current;
-    if (video) {
-      if (isVideoPlaying) {
-        video.pause();
-        setIsVideoPlaying(false);
-      } else {
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              setIsVideoPlaying(true);
-            })
-            .catch((error) => {
-              console.warn('Play was prevented:', error);
-            });
-        }
-      }
-    }
+    setIsPlaying((prev) => !prev);
   };
 
-  return (
-    <section className={`py-16 sm:py-20 md:py-24 lg:py-32 bg-gradient-to-br from-orange-100/30 via-amber-100/20 to-yellow-100/30 relative overflow-hidden ${className}`}>
-      <div className="absolute top-0 right-0 w-64 sm:w-96 h-64 sm:h-96 bg-orange-400/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-64 sm:w-96 h-64 sm:h-96 bg-amber-400/10 rounded-full blur-3xl"></div>
+  const toggleMute = () => {
+    setIsMuted((prev) => !prev);
+  };
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-10 sm:mb-12 lg:mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-orange-900 via-orange-600 to-amber-700 bg-clip-text text-transparent">
+return (
+  <section className={`py-16 sm:py-20 md:py-24 lg:py-32 
+    bg-gradient-to-b from-orange-200 to-white 
+    relative overflow-hidden ${className}`}>
+    <div className="absolute top-0 right-0 w-64 sm:w-96 h-64 sm:h-96 bg-orange-400/10 rounded-full blur-3xl"></div>
+    <div className="absolute bottom-0 left-0 w-64 sm:w-96 h-64 sm:h-96 bg-amber-400/10 rounded-full blur-3xl"></div>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12 sm:mb-16 lg:mb-20">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-orange-900 via-orange-600 to-amber-700 bg-clip-text text-transparent pb-2">
             Innovation in Action
           </h2>
           <p className="text-lg sm:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed px-4 sm:px-0">
             Watch how HELIOS Medical Systems is transforming healthcare through 
             cutting-edge technology and innovative solutions.
           </p>
+          <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-orange-500 to-amber-500 mx-auto mt-6 sm:mt-8"></div>
         </div>
 
+
+
+
+      
         <div className="max-w-6xl mx-auto">
           <div className="relative">
-            <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl sm:rounded-3xl blur-lg opacity-20"></div>
+            <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-white-500 to-orange-500 rounded-2xl sm:rounded-3xl blur-lg opacity-20"></div>
             <div className="relative aspect-video bg-gradient-to-br from-orange-500/20 to-amber-500/10 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-orange-200">
               {!videoError ? (
                 <video
                   ref={videoRef}
                   className="w-full h-full object-cover"
-                  autoPlay
                   loop
-                  muted
                   playsInline
                   preload="auto"
                   poster={posterUrl}
-                  onLoadStart={() => console.log('Video load started')}
-                  onCanPlay={() => console.log('Video can play')}
-                  onError={(e) => console.error('Video error:', e)}
+                  muted={isMuted}           // controlled by state
+                  onClick={togglePlayPause} // optional: click video to play/pause
                 >
                   <source src={videoUrl} type="video/mp4" />
                   Your browser does not support the video tag.
@@ -162,19 +136,17 @@ const AboutusVedioSection = ({
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
-              {/* Enhanced controls */}
+              {/* Controls */}
               {!videoError && (
                 <div className="absolute top-3 right-3 sm:top-6 sm:right-6 flex gap-2">
-                  {/* Play/Pause button */}
                   <button
                     onClick={togglePlayPause}
                     className="w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white hover:bg-orange-500/20 transition-all duration-300 hover:scale-110 shadow-lg flex items-center justify-center"
-                    aria-label={isVideoPlaying ? "Pause video" : "Play video"}
+                    aria-label={isPlaying ? "Pause video" : "Play video"}
                   >
-                    {isVideoPlaying ? <Pause className="w-4 sm:w-5 h-4 sm:h-5" /> : <Play className="w-4 sm:w-5 h-4 sm:h-5" />}
+                    {isPlaying ? <Pause className="w-4 sm:w-5 h-4 sm:h-5" /> : <Play className="w-4 sm:w-5 h-4 sm:h-5" />}
                   </button>
 
-                  {/* Mute/Unmute button */}
                   <button
                     onClick={toggleMute}
                     className="w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white hover:bg-orange-500/20 transition-all duration-300 hover:scale-110 shadow-lg flex items-center justify-center"
@@ -196,7 +168,7 @@ const AboutusVedioSection = ({
                 </div>
               </div>
 
-              {/* Loading indicator */}
+              {/* Loading overlay */}
               {!videoLoaded && !videoError && (
                 <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-orange-500/20 to-amber-500/10">
                   <div className="text-center text-white">

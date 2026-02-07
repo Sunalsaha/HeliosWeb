@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import AboutFootBg from "../assets/AboutFoot.png";
 
 interface AboutusEndSectionProps {
   onContactClick?: () => void;
@@ -10,21 +11,33 @@ const AboutusEndSection = ({
   onDemoClick,
 }: AboutusEndSectionProps) => {
   return (
-    <section className="py-16 sm:py-20 md:py-24 lg:py-32 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
+    <section
+      className="py-16 sm:py-20 md:py-24 lg:py-32 bg-no-repeat bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${AboutFootBg})`,
+      }}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative">
-          <div className="absolute -inset-4 sm:-inset-8 bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl sm:rounded-3xl blur-2xl opacity-10"></div>
+          <div className="relative bg-white/10 backdrop-blur-xl p-8 sm:p-12 lg:p-16 text-center border border-white/70 rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_8px_32px_0_rgba(31,38,135,0.37)]">
+            {/* Top glossy reflection */}
+            <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/5 to-transparent pointer-events-none"></div>
+            
+            {/* Diagonal shine effect */}
+            <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-br from-white/20 via-transparent to-transparent pointer-events-none"></div>
+            
+            {/* Inner border glow */}
+            <div className="absolute inset-[1px] rounded-2xl sm:rounded-3xl bg-gradient-to-b from-white/50 to-transparent pointer-events-none"></div>
 
-          <div className="relative bg-white p-8 sm:p-12 lg:p-16 text-center border-2 border-orange-200 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl">
-            <div className="absolute top-4 right-4 sm:top-8 sm:right-8 w-16 sm:w-20 h-16 sm:h-20 bg-orange-400/10 rounded-full blur-xl"></div>
-            <div className="absolute bottom-4 left-4 sm:bottom-8 sm:left-8 w-12 sm:w-16 h-12 sm:h-16 bg-amber-400/10 rounded-lg rotate-45 blur-lg"></div>
+            {/* Bottom shadow for depth */}
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
 
             <div className="relative z-10">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-orange-900 via-orange-600 to-amber-700 bg-clip-text text-transparent pb-2">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 text-orange-700 drop-shadow-lg">
                 Ready to Transform Healthcare?
               </h2>
 
-              <p className="text-lg sm:text-xl text-gray-600 mb-8 sm:mb-12 max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
+              <p className="text-lg sm:text-xl text-gray-800 mb-8 sm:mb-12 max-w-3xl mx-auto leading-relaxed px-4 sm:px-0 drop-shadow-sm">
                 Join thousands of healthcare professionals who trust HELIOS Medical Systems
                 to deliver exceptional patient care.
               </p>
@@ -33,18 +46,22 @@ const AboutusEndSection = ({
                 {/* Contact button */}
                 <button
                   onClick={onContactClick}
-                  className="w-full flex flex-row sm:w-auto bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white text-base sm:text-lg px-8 sm:px-10 py-3 sm:py-3 rounded-full shadow-2xl transform transition-all duration-300 hover:scale-105 border-0"
+                  className="w-full sm:w-auto text-base sm:text-lg px-8 sm:px-10 py-3 rounded-full border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white shadow-lg transition-all duration-300 hover:scale-105 bg-white/50 backdrop-blur-sm"
                 >
-                  <span>Contact Our Team</span>
-                  <ArrowRight className="ml-2 sm:ml-3 w-5 sm:w-6 h-5 sm:h-6 relative top-1" />
+                 Explore our products
+                
                 </button>
 
                 {/* Demo button */}
                 <button
                   onClick={onDemoClick}
-                  className="w-full sm:w-auto text-base sm:text-lg px-8 sm:px-10 py-3 sm:py-3 rounded-full border-2 border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white shadow-lg transform transition-all duration-300 hover:scale-105"
+                  className="w-full sm:w-auto flex items-center justify-center bg-orange-400 hover:bg-orange-500 text-white text-base sm:text-lg px-8 sm:px-10 py-3 rounded-full shadow-xl transition-all duration-300 hover:scale-105"
+                
                 >
-                  Schedule a Demo
+                  <span>Contact Our Team</span>
+                  <ArrowRight className="ml-3 w-5 sm:w-6 h-5 sm:h-6" />
+                 
+                  
                 </button>
               </div>
             </div>
